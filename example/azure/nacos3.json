@@ -1,0 +1,124 @@
+{
+    "name": "nacos3",
+    "type": "Microsoft.App/containerApps",
+    "location": "East Asia",
+    "properties": {
+        "environmentId": "/subscriptions/34e01e72-41f1-4f1c-a24a-2ab7201c687a/resourceGroups/bowan/providers/Microsoft.App/managedEnvironments/bowan-multi-port",
+        "workloadProfileName": "Consumption",
+        "configuration": {
+            "activeRevisionsMode": "Single",
+            "secrets": [
+                {
+                    "name": "mysql-password",
+                    "value": "<mock>"
+                }
+            ],
+            "ingress": {
+                "external": true,
+                "targetPort": 8868,
+                "exposedPort": 8868,
+                "transport": "Tcp",
+                "traffic": [
+                    {
+                        "weight": 100,
+                        "latestRevision": true
+                    }
+                ],
+                "allowInsecure": false,
+                "additionalPortMappings": [
+                    {
+                        "external": true,
+                        "targetPort": 7868,
+                        "exposedPort": 7868
+                    },
+                    {
+                        "external": true,
+                        "targetPort": 9868,
+                        "exposedPort": 9868
+                    },
+                    {
+                        "external": true,
+                        "targetPort": 9869,
+                        "exposedPort": 9869
+                    }
+                ]
+            }
+        },
+        "template": {
+            "containers": [
+                {
+                    "image": "nacos/nacos-server:v2.2.3",
+                    "name": "nacos3",
+                    "env": [
+                        {
+                            "name": "PREFER_HOST_MODE",
+                            "value": "ip"
+                        },
+                        {
+                            "name": "NACOS_SERVERS",
+                            "value": "20.239.19.100:8848 20.239.19.100:8858 20.239.19.100:8868"
+                        },
+                        {
+                            "name": "NACOS_APPLICATION_PORT",
+                            "value": "8868"
+                        },
+                        {
+                            "name": "SPRING_DATASOURCE_PLATFORM",
+                            "value": "mysql"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_HOST",
+                            "value": "nacos-bowan.mysql.database.azure.com"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_DB_NAME",
+                            "value": "nacos_devtest"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_PORT",
+                            "value": "3306"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_USER",
+                            "value": "bowan"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_PASSWORD",
+                            "secretRef": "mysql-password"
+                        },
+                        {
+                            "name": "MYSQL_SERVICE_DB_PARAM",
+                            "value": "characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=true&allowPublicKeyRetrieval=true"
+                        },
+                        {
+                            "name": "NACOS_AUTH_IDENTITY_KEY",
+                            "value": "2222"
+                        },
+                        {
+                            "name": "NACOS_AUTH_IDENTITY_VALUE",
+                            "value": "2xxx"
+                        },
+                        {
+                            "name": "NACOS_AUTH_TOKEN",
+                            "value": "SecretKey012345678901234567890123456789012345678901234567890123456789"
+                        },
+                        {
+                            "name": "NACOS_INETUTILS_IP-ADDRESS",
+                            "value": "20.239.19.100"
+                        }
+                    ],
+                    "resources": {
+                        "cpu": 4,
+                        "memory": "8Gi",
+                        "ephemeralStorage": ""
+                    },
+                    "probes": []
+                }
+            ],
+            "scale": {
+                "minReplicas": 1,
+                "maxReplicas": 1
+            }
+        }
+    }
+}
