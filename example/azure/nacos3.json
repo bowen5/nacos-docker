@@ -14,9 +14,9 @@
                 }
             ],
             "ingress": {
-                "external": true,
-                "targetPort": 8868,
-                "exposedPort": 8868,
+                "external": false,
+                "targetPort": 8848,
+                "exposedPort": 8848,
                 "transport": "Tcp",
                 "traffic": [
                     {
@@ -27,19 +27,19 @@
                 "allowInsecure": false,
                 "additionalPortMappings": [
                     {
-                        "external": true,
-                        "targetPort": 7868,
-                        "exposedPort": 7868
+                        "external": false,
+                        "targetPort": 7848,
+                        "exposedPort": 7848
                     },
                     {
-                        "external": true,
-                        "targetPort": 9868,
-                        "exposedPort": 9868
+                        "external": false,
+                        "targetPort": 9848,
+                        "exposedPort": 9848
                     },
                     {
-                        "external": true,
-                        "targetPort": 9869,
-                        "exposedPort": 9869
+                        "external": false,
+                        "targetPort": 9849,
+                        "exposedPort": 9849
                     }
                 ]
             }
@@ -52,15 +52,19 @@
                     "env": [
                         {
                             "name": "PREFER_HOST_MODE",
-                            "value": "ip"
+                            "value": "hostname"
                         },
                         {
                             "name": "NACOS_SERVERS",
-                            "value": "20.239.19.100:8848 20.239.19.100:8858 20.239.19.100:8868"
+                            "value": "nacos1:8848 nacos2:8848 nacos3:8848"
+                        },
+                        {
+                            "name": "ADDRESS_SERVER_DOMAIN",
+                            "value": "nacos3"
                         },
                         {
                             "name": "NACOS_APPLICATION_PORT",
-                            "value": "8868"
+                            "value": "8848"
                         },
                         {
                             "name": "SPRING_DATASOURCE_PLATFORM",
@@ -103,8 +107,8 @@
                             "value": "SecretKey012345678901234567890123456789012345678901234567890123456789"
                         },
                         {
-                            "name": "NACOS_INETUTILS_IP-ADDRESS",
-                            "value": "20.239.19.100"
+                            "name": "NACOS_INETUTILS_PREFER-HOSTNAME-OVER-IP",
+                            "value": "true"
                         }
                     ],
                     "resources": {
